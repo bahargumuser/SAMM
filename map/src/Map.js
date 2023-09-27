@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
-import { MapContainer, Marker, TileLayer, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
+
+
 
 function Map() {
   const [map, setMap] = useState(null);
@@ -49,16 +51,55 @@ function Map() {
 
   return (
     <div>
-      {map && position ? (
+  
+      <div className="sidebar">
+     
+        <div
+          style={{
+            position: 'fixed',
+            top: '10px',
+            right: '10px',
+            zIndex: '1000',
+            border: '0.5vh solid #000',
+            padding: '2.8vh',
+            width: '50vh',
+            height: '200px',
+            backgroundColor: '#fff',
+          }}
+        >
+           {map && position ? (
         <p>
           latitude: {position[0].toFixed(4)}, longitude: {position[1].toFixed(4)}{' '}
           <button onClick={onClick}>reset</button>
-          <button onClick={onClick}>noktayı kaydet</button>
         </p>
       ) : null}
+          <h2>Önceki Konumlar</h2>
+        
+          <ul>
+            <li>Lat: 28.3852, Long: -81.5639</li>
+            <li>Lat: 28.3852, Long: -81.5639</li>
+          </ul>
+          <p>
+            <button>
+              Noktayı Kaydet
+            </button>
+          </p>
+          <p>
+            <button>
+              İndir
+            </button>
+          </p>
+          <p>
+            <button>
+              Sil
+            </button>
+          </p>
+        </div>
+      </div>
       {displayMap}
     </div>
   );
 }
+
 
 export default Map;
