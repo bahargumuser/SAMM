@@ -1,12 +1,14 @@
 import React, { useState, useCallback, useEffect, useMemo } from 'react';
 import { MapContainer, TileLayer } from 'react-leaflet';
 import "leaflet/dist/leaflet.css";
-
-
+import axios from 'axios';
+import ListData from './ListData'; 
 
 function Map() {
+  
   const [map, setMap] = useState(null);
   const [position, setPosition] = useState([0, 0]);
+  const [savedPoints, setSavedPoints] = useState([]);
 
   const center = [48.5866, 2.3522];
   const zoom = 13;
@@ -25,6 +27,9 @@ function Map() {
     }
   }
   }, [map]);
+
+  const saveUrl = '/kaydet';
+  const downloadUrl = '/indir';
   
   useEffect(() => {
     console.log(map);
@@ -38,6 +43,25 @@ function Map() {
       };
     }
   }, [map, onMove]);
+
+  const handleSaveClick = async () => {
+    if (position && position.length === 2) {
+      const [lat, lng] = position;
+      const datetime = new Date().toISOString();
+      try {
+        const response = await axios.post(saveUrl, { lat, lng, datetime });
+        console.log('Nokta kaydedildi:', response.data);
+        setSavedPoints([...savedPoints, response.data]);
+      } catch (error) {
+        console.error('Kaydetme hatası:', error);
+      }
+    }
+  };
+
+  const handleDownloadClick = () => {
+    // JSON dosyasını indirme
+    window.location.href = downloadUrl;
+  };
 
   const displayMap = useMemo(() => (
     <MapContainer center={center} zoom={zoom} ref={setMap}>
@@ -74,18 +98,14 @@ function Map() {
         </p>
       ) : null}
           <h2>Önceki Konumlar</h2>
-        
-          <ul>
-            <li>Lat: 28.3852, Long: -81.5639</li>
-            <li>Lat: 28.3852, Long: -81.5639</li>
-          </ul>
+          <ListData data={savedPoints} />
           <p>
-            <button>
+            <button onClick={handleSaveClick}> {/* axios ile back end verisi buradan alınacak */}
               Noktayı Kaydet
             </button>
           </p>
           <p>
-            <button>
+            <button onClick={handleDownloadClick}>
               İndir
             </button>
           </p>
