@@ -28,8 +28,8 @@ function Map() {
   }
   }, [map]);
 
-  const saveUrl = '/kaydet';
-  const downloadUrl = '/indir';
+  const saveUrl = 'http://localhost:3001/kaydet';
+  const downloadUrl = 'http://localhost:3001/indir';
   
   useEffect(() => {
     console.log(map);
@@ -97,10 +97,9 @@ function Map() {
           <button onClick={onClick}>reset</button>
         </p>
       ) : null}
-          <h2>Önceki Konumlar</h2>
           <ListData data={savedPoints} />
           <p>
-            <button onClick={handleSaveClick}> {/* axios ile back end verisi buradan alınacak */}
+            <button onClick={handleSaveClick}> 
               Noktayı Kaydet
             </button>
           </p>
