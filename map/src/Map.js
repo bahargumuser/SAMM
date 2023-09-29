@@ -10,22 +10,26 @@ function Map() {
   const mapRef = useRef(null);
   const [position, setPosition] = useState([0, 0]);
   const [savedPoints, setSavedPoints] = useState([]);
-    const [clickPoint, setClickPoint] = useState([48.5866, 2.3522]);
+  const [clickPoint, setClickPoint] = useState([48.5866, 2.3522]);
+
 
   const crosshairIcon = new L.Icon({
-    iconUrl: './maps-and-flags.png',
+    iconUrl: './maps-and-flags (1).png',
     iconSize: [20, 20],
     iconAnchor: [10, 10],
   });
 
-  const center = [48.5866, 2.3522];
+
+  const center = [48.8566, 2.3522]; //Paris
   const zoom = 13;
+
 
   const onClick = useCallback(() => {
     if (map) {
       map.setView(center, zoom);
     }
   }, [map, center, zoom]);
+
 
   const onMove = useCallback(() => {
     if (map) {
@@ -35,6 +39,7 @@ function Map() {
       }
     }
   }, [map]);
+
 
   const handleSaveClick = async () => {
     if (position && position.length === 2) {
@@ -51,8 +56,10 @@ function Map() {
     }
   };
 
+
   const saveUrl = "http://localhost:3001/kaydet";
   const downloadUrl = "http://localhost:3001/indir";
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,6 +76,8 @@ function Map() {
     };
     fetchData();
   }, [savedPoints]);
+
+
   useEffect(() => {
     console.log(map);
     if (map) {
@@ -96,11 +105,13 @@ function Map() {
     [center, zoom, clickPoint]
   );
 
+
   useEffect(() => {
     if (mapRef.current) {
       setMap(mapRef.current.leafletElement);
     }
   }, []);
+
 
   useEffect(() => {
     if (map) {
@@ -118,44 +129,84 @@ function Map() {
             top: "10px",
             right: "10px",
             zIndex: "1000",
-            border: "0.5vh solid #000",
-            padding: "2.8vh",
-            width: "50vh",
+            border: "1.5px solid #000",
+            padding: "4px",
+            width: "60vh",
+            height: "auto",
             backgroundColor: "#fff",
+            fontFamily:"monospace",
+            fontSize:"2vh",
+           
           }}
         >
-           {map && position ? (
-            <p>
+         
+        <h2
+        style={{
+        textAlign: "center"
+        }}>
+          Saved Points</h2>
+
+            {map && position ? (
+            <p
+            style={{
+            textAlign: "center",
+            }}>
+
+
               latitude: {position[0].toFixed(4)}, longitude:{" "}
-              {position[1].toFixed(4)} <button onClick={onClick} >reset</button>
+              {position[1].toFixed(4)} <button onClick={onClick} 
+
+              style={{
+                backgroundColor: "#f5f5f5", 
+                padding: "5px 8px", 
+                borderRadius: "10px", 
+                marginRight: "5px",  
+                marginBottom: "1px", 
+                cursor: "pointer",
+                marginLeft: "6px"
+              }}
+              >reset</button>
             </p>
           ) : null}
-<h2>Saved Points</h2>
+
+           <div style={{
+            display: "flex",
+            padding: "10px"
+           }}
+           >
           <p>
-            <button onClick={handleSaveClick}  style={{
+            
+            <button onClick={handleSaveClick} 
+            style={{
                 backgroundColor: "#f5f5f5", 
-                padding: "5px 10px", 
+                padding: "5px 8px", 
                 borderRadius: "10px", 
-                marginRight: "10px", 
-                marginBottom: "10px", 
+                marginRight: "5px",  
+                marginBottom: "1px", 
                 cursor: "pointer",
-              }}>Noktayı Kaydet</button>
-          </p>
+              }}>
+                Noktayı Kaydet</button>
+          </p> 
+
           <p>
-            <button onClick={handleDownloadClick} style={{
+            <button onClick={handleDownloadClick}  style={{
                 backgroundColor: "#f5f5f5", 
-                padding: "5px 10px", 
+                padding: "5px 8px", 
                 borderRadius: "10px", 
-                marginRight: "10px", 
-                marginBottom: "10px", 
+                marginRight: "5px", 
+                marginBottom: "1px", 
                 cursor: "pointer",
-              }} >İndir</button>
+              }}>İndir</button>
           </p>
-          <ListData data={savedPoints} setClickPoint={setClickPoint}/>
-         
+        </div>
+
+        <ListData data={savedPoints} setClickPoint={setClickPoint}/>
+
         </div>
       </div>
+
       {displayMap}
+      
     </div>
   );
           }
