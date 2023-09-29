@@ -12,28 +12,57 @@ function ListData({ data, setClickPoint }) {
   };
 
   return (
-    <div>
+
+    <div style={{
+      maxHeight: "60vh",
+      overflow: "auto" 
+    }}>
+
       <ul>
         {data.map((item, index) => (
-          <li key={index}>
-            Latitude: {item.lat.toFixed(2)}, Longitude: {item.lng.toFixed(2)}, Date: {item.datetime}
-            <button onClick={() => handleDelete(item.id) } style={{
+          <li key={index}
+            style={{
+            borderStyle: "dotted",
+            borderWidth: "2px",
+            paddingInline: "4px",
+            margin: "10px 0px 10px 10px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+           }}>
+
+            <div>
+            <p
+            style={{
+             whiteSpace: "nowrap"
+              }}>
+            Latitude: {item.lat.toFixed(2)},  <br />Longitude: {item.lng.toFixed(2)}, <br /> Date: {item.datetime} 
+            </p>
+            </div>
+
+            <button onClick={() => handleDelete(item.id)}
+
+            style={{
                 backgroundColor: "#f5f5f5", 
-                padding: "5px 10px", 
                 borderRadius: "10px", 
-                marginRight: "10px", 
-                marginBottom: "10px", 
                 cursor: "pointer",
-              }}>Sil</button>
+                padding: "4px",
+                marginLeft: "7px",
+              }}
               
-            <button onClick={() => setClickPoint([item.lat, item.lng])} style={{
-                backgroundColor: "#f5f5f5", 
-                padding: "5px 10px", 
+              >Sil</button>
+
+            <button onClick={() => setClickPoint([item.lat, item.lng])}
+
+            style={{
+                backgroundColor: "#f5f5f5",
                 borderRadius: "10px", 
-                marginRight: "10px", 
-                marginBottom: "10px", 
                 cursor: "pointer",
-              }}> Noktaya Git</button>
+                padding: "4px",
+                marginLeft: "7px"
+              }}
+
+              >Noktaya Git</button>
 
           </li>
         ))}
